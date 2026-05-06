@@ -52,7 +52,6 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 w-full z-50 bg-white/80 backdrop-blur-md shadow-sm">
       <div className="flex items-center justify-between px-6 py-4">
 
-        {/* LOGO */}
         <Image
           src="/logo.png"
           alt="Logo"
@@ -73,17 +72,17 @@ export default function Navbar() {
 
             {openDesign && (
               <div className="absolute top-10 left-1/2 -translate-x-1/2 bg-white shadow-xl rounded-2xl p-4 w-44 flex flex-col gap-3">
-                <a href="/?id=2#preview" className="bg-[#C3473F] text-white py-2 rounded-lg text-center">
+                <a href="#preview" className="bg-[#C3473F] text-white py-2 rounded-lg text-center">
                   Hexagon
                 </a>
-                <a href="/?id=3#preview" className="bg-[#C3473F] text-white py-2 rounded-lg text-center">
+                <a href="#contact" className="bg-[#C3473F] text-white py-2 rounded-lg text-center">
                   Custom
                 </a>
               </div>
             )}
           </div>
 
-          <a href="#contact" className="font-semibold">Contact Us</a>
+          <a href="#contact" className="font-semibold">Consultation</a>
         </div>
         <div className="flex items-center gap-3">
           {!user ? (
