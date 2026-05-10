@@ -66,12 +66,18 @@ export default function UserNotificationsPage() {
   };
 
   return (
-    <div className="min-h-screen p-6 bg-[#fdf3f2]">
-      <div className="w-auto mx-auto p-6 rounded-3xl bg-[#FFFFFFBF]">
-        <div className="flex justify-between items-center mb-4">
+    <div className="min-h-screen bg-[#fdf3f2] p-3 sm:p-6">
+      <div className="w-full mx-auto bg-[#FFFFFFBF] rounded-2xl sm:rounded-3xl p-4 sm:p-6">
+
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-6">
+
+          <h1 className="text-xl sm:text-2xl font-bold text-[#741209]">
+            Notifikasi
+          </h1>
+
           <button
             onClick={() => setData([])}
-            className="text-[#B54141] text-sm flex items-center gap-1"
+            className="text-[#B54141] text-sm flex items-center gap-2 hover:opacity-70 transition"
           >
             <img
               src="/sampah.png"
@@ -81,10 +87,9 @@ export default function UserNotificationsPage() {
             Hapus Semua
           </button>
         </div>
-        <br />
 
         {data.length === 0 && (
-          <div className="bg-white text-black p-6 rounded-xl text-center">
+          <div className="bg-white text-black p-6 rounded-xl text-center shadow-sm">
             Belum ada notifikasi
           </div>
         )}
@@ -96,21 +101,25 @@ export default function UserNotificationsPage() {
             return (
               <div
                 key={n.id_notifikasi}
-                className={`${style.bg} border-t-4 ${style.border} rounded-xl shadow p-4 flex justify-between items-start`}
+                className={`${style.bg} border-t-4 ${style.border} rounded-2xl shadow-sm p-4 flex gap-3 justify-between items-start`}
               >
-                <div className="flex gap-3">
+
+                <div className="flex gap-3 flex-1 min-w-0">
+
                   <img
                     src={style.icon}
                     alt="icon"
-                    className="w-8 h-8 object-contain"
+                    className="w-8 h-8 object-contain flex-shrink-0"
                   />
 
-                  <div>
-                    <p className={`font-semibold ${style.text}`}>
+                  <div className="min-w-0">
+                    <p
+                      className={`font-semibold ${style.text} text-sm sm:text-base break-words`}
+                    >
                       {n.judul}
                     </p>
 
-                    <p className="text-sm text-gray-700">
+                    <p className="text-xs sm:text-sm text-gray-700 break-words mt-1">
                       {n.pesan}
                     </p>
                   </div>
@@ -118,7 +127,13 @@ export default function UserNotificationsPage() {
 
                 <button
                   onClick={() => removeNotif(n.id_notifikasi)}
-                  className="text-black hover:text-red-500"
+                  className="
+                    text-black
+                    hover:text-red-500
+                    transition
+                    flex-shrink-0
+                    text-lg
+                  "
                 >
                   ✕
                 </button>

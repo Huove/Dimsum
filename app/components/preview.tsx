@@ -6,6 +6,7 @@ import { FileUpload } from "@/app/components/ui/file-upload";
 
 export default function Preview() {
   const [products, setProducts] = useState<any[]>([]);
+
   const [selected, setSelected] = useState(0);
   const [isAdmin, setIsAdmin] = useState(false);
   const [form, setForm] = useState<any>({});
@@ -297,7 +298,103 @@ export default function Preview() {
         {product?.nama_produk}
       </h1>
 
-      <div className="w-full grid grid-cols-12 gap-8 items-center px-10">
+      <div className="block lg:hidden w-full px-4 py-10">
+
+        <div className="relative flex justify-center mb-6">
+          <Image
+            src={imageUrl}
+            alt={product?.nama_produk}
+            width={320}
+            height={420}
+            className="object-contain drop-shadow-2xl"
+          />
+        </div>
+
+        <div className="text-center">
+
+          <p className="text-sm font-bold tracking-[0.3em] text-[#7D2017] mb-2">
+            {product?.label?.toUpperCase() || "PRODUCT"}
+          </p>
+
+          <div className="flex justify-center text-yellow-400 text-xl mb-4">
+            {"★".repeat(product?.rating || 0)}
+          </div>
+
+          <h2 className="text-4xl font-black text-[#7D2017] mb-2">
+            {product?.nama_produk}
+          </h2>
+
+          <p className="text-[#9C6B4E] font-semibold mb-4">
+            {product?.subjudul}
+          </p>
+
+          <p className="text-sm text-[#7D2017]/80 leading-relaxed mb-6">
+            {product?.deskripsi}
+          </p>
+
+          <p className="text-xl font-bold text-[#7D2017] mb-6">
+            Rp{product?.harga} / {product?.satuan}
+          </p>
+
+          <button
+            onClick={() =>
+              document
+                .getElementById("contact")
+                ?.scrollIntoView({ behavior: "smooth" })
+            }
+            className="
+      w-full
+      bg-[#C3473F]
+      hover:bg-[#a63b34]
+      text-white
+      font-semibold
+      py-3
+      rounded-full
+      shadow-lg
+      transition"
+          >
+            Pesan Sekarang!
+          </button>
+        </div>
+
+        <div className="flex items-center justify-center gap-3 mt-10 overflow-x-auto pb-2">
+
+          <button
+            onClick={scrollUp}
+            className="min-w-[40px] h-10 rounded-full bg-white shadow text-black"
+          >
+            ←
+          </button>
+
+          {products.map((item, index) => (
+            <button
+              key={item.id_produk ?? index}
+              onClick={() => setSelected(index)}
+              className={`min-w-[64px] w-16 h-16 rounded-full overflow-hidden border-2 transition
+                ${selected === index
+                  ? "border-[#C3473F] scale-110"
+                  : "border-gray-300"
+                }`}
+            >
+              <Image
+                src={getImage(item)}
+                alt={item.nama_produk}
+                width={64}
+                height={64}
+              />
+            </button>
+          ))}
+
+          <button
+            onClick={scrollDown}
+            className="min-w-[40px] h-10 rounded-full bg-white shadow text-black"
+          >
+            →
+          </button>
+        </div>
+      </div>
+
+      <div className="hidden lg:grid w-full grid-cols-12 gap-8 items-center px-10">
 
         <div className="col-span-2 flex flex-col items-center gap-6">
 
@@ -313,7 +410,10 @@ export default function Preview() {
               key={item.id_produk ?? index}
               onClick={() => setSelected(index)}
               className={`w-16 h-16 rounded-full overflow-hidden border-2 transition
-                ${selected === index ? "border-red-500 scale-110" : "border-gray-300"}`}
+        ${selected === index
+                  ? "border-red-500 scale-110"
+                  : "border-gray-300"
+                }`}
             >
               <Image
                 src={getImage(item)}
@@ -366,8 +466,8 @@ export default function Preview() {
                 ?.scrollIntoView({ behavior: "smooth" })
             }
             className="bg-[#C3473F] hover:bg-[#a63b34]
-            text-white font-semibold px-8 py-3 rounded-full
-            shadow-lg transition"
+      text-white font-semibold px-8 py-3 rounded-full
+      shadow-lg transition"
           >
             Pesan Sekarang!
           </button>

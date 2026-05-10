@@ -127,110 +127,128 @@ export default function ProfilePage() {
     return <p className="p-6">Loading profile...</p>;
   }
 
-  return (
-    <div className="p-10 bg-[#FFF1F1] min-h-screen">
-      {/* FOTO PROFIL */}
-      <div className="flex items-center gap-6 mb-10">
-        <div className="relative w-28 h-28">
-          <img
-            src={getAvatar()}
-            className="w-28 h-28 rounded-full object-cover"
-          />
+return (
+  <div className="p-4 md:p-10 bg-[#FFF1F1] min-h-screen">
+    <div className="flex flex-col sm:flex-row items-center sm:items-center gap-4 sm:gap-6 mb-10">
+      <div className="relative w-24 h-24 sm:w-28 sm:h-28">
+        <img
+          src={getAvatar()}
+          className="w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover border-4 border-white shadow"
+        />
 
-          <label className="absolute bottom-0 right-0 bg-[#C3473F] text-white w-6 h-6 rounded-full flex items-center justify-center shadow cursor-pointer">
-            <img src="/edit.png" alt="edit" className="w-4 h-4" />
-            <input
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) setSelectedFile(file);
-              }}
-            />
+        <label className="absolute bottom-0 right-0 bg-[#C3473F] text-white w-7 h-7 rounded-full flex items-center justify-center shadow cursor-pointer">
+          <img src="/edit.png" alt="edit" className="w-4 h-4" />
+
+          <input
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) setSelectedFile(file);
+            }}
+          />
+        </label>
+      </div>
+
+      <div className="text-center sm:text-left">
+        <h2 className="text-lg sm:text-xl font-semibold text-black">
+          {form.nama}
+        </h2>
+
+        <p className="text-sm text-black break-all">
+          {form.email}
+        </p>
+      </div>
+    </div>
+
+    <form onSubmit={handleSubmit} className="space-y-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div>
+          <label className="text-[#7D2017] text-sm font-medium">
+            Nama Lengkap *
           </label>
+
+          <input
+            name="nama"
+            value={form.nama}
+            onChange={handleChange}
+            className="w-full mt-1 p-3 rounded-lg bg-[#F2DAD8] text-black outline-none"
+          />
         </div>
 
         <div>
-          <h2 className="text-lg font-semibold text-black">
-            {form.nama}
-          </h2>
-          <p className="text-sm text-black">{form.email}</p>
+          <label className="text-[#7D2017] text-sm font-medium">
+            Email *
+          </label>
+
+          <input
+            name="email"
+            value={form.email}
+            disabled
+            className="w-full mt-1 p-3 rounded-lg bg-[#F2DAD8] text-black outline-none"
+          />
+        </div>
+
+        <div className="relative">
+          <label className="text-[#7D2017] text-sm font-medium">
+            Password
+          </label>
+
+          <input
+            type={showPassword ? "text" : "password"}
+            name="password"
+            value={form.password}
+            onChange={handleChange}
+            placeholder="Kosongkan jika tidak ingin mengganti"
+            className="w-full mt-1 p-3 pr-10 rounded-lg bg-[#F2DAD8] text-black outline-none"
+          />
+
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-10 text-gray-600"
+          >
+            {showPassword ? <FiEyeOff /> : <FiEye />}
+          </button>
+        </div>
+
+        <div>
+          <label className="text-[#7D2017] text-sm font-medium">
+            No HP *
+          </label>
+
+          <input
+            name="no_hp"
+            value={form.no_hp}
+            onChange={handleChange}
+            className="w-full mt-1 p-3 rounded-lg bg-[#F2DAD8] text-black outline-none"
+          />
         </div>
       </div>
 
-      {/* FORM */}
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="grid grid-cols-2 gap-6">
-          <div>
-            <label className="text-[#7D2017]">Nama Lengkap *</label>
-            <input
-              name="nama"
-              value={form.nama}
-              onChange={handleChange}
-              className="w-full p-3 rounded bg-[#F2DAD8] text-black"
-            />
-          </div>
+      <div>
+        <label className="text-[#7D2017] text-sm font-medium">
+          Alamat *
+        </label>
 
-          <div>
-            <label className="text-[#7D2017]">Email *</label>
-            <input
-              name="email"
-              value={form.email}
-              disabled
-              className="w-full p-3 rounded bg-[#F2DAD8] text-black"
-            />
-          </div>
+        <textarea
+          name="alamat"
+          value={form.alamat}
+          onChange={handleChange}
+          rows={4}
+          className="w-full mt-1 p-3 rounded-lg bg-[#F2DAD8] text-black outline-none resize-none"
+        />
+      </div>
 
-          <div className="relative">
-            <label className="text-[#7D2017]">Password</label>
-            <input
-              type={showPassword ? "text" : "password"}
-              name="password"
-              value={form.password}
-              onChange={handleChange}
-              placeholder="Kosongkan jika tidak ingin mengganti"
-              className="w-full p-3 rounded bg-[#F2DAD8] text-black"
-            />
-
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-9 text-gray-600"
-            >
-              {showPassword ? <FiEyeOff /> : <FiEye />}
-            </button>
-          </div>
-
-          <div>
-            <label className="text-[#7D2017]">No HP *</label>
-            <input
-              name="no_hp"
-              value={form.no_hp}
-              onChange={handleChange}
-              className="w-full p-3 rounded bg-[#F2DAD8] text-black"
-            />
-          </div>
-        </div>
-
-        <div>
-          <label className="text-[#7D2017]">Alamat *</label>
-          <textarea
-            name="alamat"
-            value={form.alamat}
-            onChange={handleChange}
-            className="w-full p-3 rounded bg-[#F2DAD8] text-black"
-          />
-        </div>
-
-        <button
-          type="submit"
-          disabled={loading}
-          className="bg-[#C3473F] hover:bg-[#a63b34] text-white px-6 py-3 rounded font-semibold"
-        >
-          {loading ? "Loading..." : "Simpan"}
-        </button>
-      </form>
-    </div>
-  );
+      <button
+        type="submit"
+        disabled={loading}
+        className="w-full sm:w-auto bg-[#C3473F] hover:bg-[#a63b34] transition text-white px-6 py-3 rounded-lg font-semibold"
+      >
+        {loading ? "Loading..." : "Simpan"}
+      </button>
+    </form>
+  </div>
+);
 }

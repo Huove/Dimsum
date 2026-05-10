@@ -6,7 +6,7 @@ export default function UserLayout({ children }: { children: React.ReactNode }) 
   return (
     <div className="flex">
           <Sidebar />
-          <div className="flex-1 ml-60 min-h-screen bg-[#FFF2F2]">
+          <div className="flex-1 lg:ml-60 min-h-screen bg-[#FFF2F2]">
             <div className="sticky top-0 z-50">
               <Navbar />
             </div>

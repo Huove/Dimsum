@@ -57,37 +57,37 @@ export default function CartPage() {
   }, []);
 
   const updateQty = async (id: number, type: "plus" | "minus") => {
-  const token = getToken();
-  console.log("TOKEN:", token);
+    const token = getToken();
+    console.log("TOKEN:", token);
 
-  const item = data.find((i) => i.id_keranjang === id);
-  if (!item) return;
+    const item = data.find((i) => i.id_keranjang === id);
+    if (!item) return;
 
-  const newQty = type === "plus" ? item.jumlah + 1 : item.jumlah - 1;
-  if (newQty < 1) return;
+    const newQty = type === "plus" ? item.jumlah + 1 : item.jumlah - 1;
+    if (newQty < 1) return;
 
-  try {
-    const res = await fetch(`${API_BASE}/cart/item/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-      body: JSON.stringify({ jumlah: newQty }),
-    });
+    try {
+      const res = await fetch(`${API_BASE}/cart/item/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+        body: JSON.stringify({ jumlah: newQty }),
+      });
 
-    console.log("STATUS UPDATE:", res.status);
+      console.log("STATUS UPDATE:", res.status);
 
-    if (!res.ok) {
-      const text = await res.text();
-      console.log("ERROR RESPONSE:", text);
+      if (!res.ok) {
+        const text = await res.text();
+        console.log("ERROR RESPONSE:", text);
+      }
+
+      fetchCart();
+    } catch (err) {
+      console.error("FETCH ERROR:", err);
     }
-
-    fetchCart();
-  } catch (err) {
-    console.error("FETCH ERROR:", err);
-  }
-};
+  };
   const deleteItem = async (id: number) => {
     const token = getToken();
 
@@ -167,21 +167,20 @@ export default function CartPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#fdf3f2] p-6">
+    <div className="min-h-screen bg-[#fdf3f2] p-4 md:p-6">
       {data.length === 0 ? (
         <p className="text-[#741209]">Keranjang kosong</p>
       ) : (
         <>
-          {/* CART LIST */}
-          <div className="bg-white rounded-2xl p-5 border mb-5">
-            <div className="flex justify-between items-center mb-6">
-              <h1 className="text-2xl font-bold text-[#B54141]">
+          <div className="bg-white rounded-2xl p-4 md:p-5 border mb-5">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-6">
+              <h1 className="text-xl md:text-2xl font-bold text-[#B54141]">
                 Item ({jumlahItem})
               </h1>
 
               <button
                 onClick={clearCart}
-                className="text-[#B54141] font-semibold hover:opacity-70"
+                className="text-[#B54141] font-semibold hover:opacity-70 text-left sm:text-right"
               >
                 Hapus Semua
               </button>
@@ -191,11 +190,18 @@ export default function CartPage() {
               {data.map((item) => (
                 <div
                   key={item.id_keranjang}
-                  className="bg-[#F2DAD8] rounded-2xl p-4 flex gap-4"
+                  className="bg-[#F2DAD8] rounded-2xl p-4 flex flex-col sm:flex-row gap-4 relative"
                 >
+                  <button
+                    onClick={() => deleteItem(item.id_keranjang)}
+                    className="absolute top-3 right-3 text-black hover:text-red-500"
+                  >
+                    ✕
+                  </button>
+
                   <img
                     src={HOST_BASE + item.gambar_produk}
-                    className="w-24 h-24 object-cover rounded-xl bg-white"
+                    className="w-full sm:w-24 h-52 sm:h-24 object-cover rounded-xl bg-white"
                   />
 
                   <div className="flex-1">
@@ -211,10 +217,12 @@ export default function CartPage() {
                       Layanan: {item.layanan}
                     </p>
 
-                    <div className="flex justify-between items-center mt-3">
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mt-4">
                       <div className="flex items-center gap-2">
                         <button
-                          onClick={() => updateQty(item.id_keranjang, "minus")}
+                          onClick={() =>
+                            updateQty(item.id_keranjang, "minus")
+                          }
                           className="w-8 h-8 bg-[#C3473F] hover:bg-[#a63b34] text-white font-bold rounded transition"
                         >
                           -
@@ -225,7 +233,9 @@ export default function CartPage() {
                         </span>
 
                         <button
-                          onClick={() => updateQty(item.id_keranjang, "plus")}
+                          onClick={() =>
+                            updateQty(item.id_keranjang, "plus")
+                          }
                           className="w-8 h-8 bg-[#C3473F] hover:bg-[#a63b34] text-white font-bold rounded transition"
                         >
                           +
@@ -237,35 +247,27 @@ export default function CartPage() {
                       </p>
                     </div>
                   </div>
-
-                  <button
-                    onClick={() => deleteItem(item.id_keranjang)}
-                    className="text-black hover:text-red-500"
-                  >
-                    ✕
-                  </button>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* SUMMARY */}
-          <div className="bg-white rounded-2xl p-5 border mb-5 text-black">
+          <div className="bg-white rounded-2xl p-4 md:p-5 border mb-5 text-black">
             <h3 className="font-bold text-[#741209] mb-3 text-lg">
               Ringkasan Belanja
             </h3>
 
             <div className="flex justify-between text-[#3B1E1A]">
               <span className="font-medium">Total Harga</span>
+
               <span className="font-bold text-[#B54141]">
                 Rp{total.toLocaleString("id-ID")}
               </span>
             </div>
           </div>
 
-          {/* PROFILE INFO */}
           {profile && (
-            <div className="bg-white rounded-2xl p-5 border mb-5 text-black">
+            <div className="bg-white rounded-2xl p-4 md:p-5 border mb-5 text-black">
               <h3 className="font-bold text-[#741209] mb-3 text-lg">
                 Dikirim ke:
               </h3>
@@ -274,7 +276,7 @@ export default function CartPage() {
                 {profile.nama}
               </p>
 
-              <p className="text-[#3B1E1A]">
+              <p className="text-[#3B1E1A] break-all">
                 {profile.email}
               </p>
 
@@ -284,10 +286,9 @@ export default function CartPage() {
             </div>
           )}
 
-          {/* CHECKOUT BUTTON */}
           <button
             onClick={handleCheckout}
-            className="bg-[#C3473F] hover:bg-[#a63b34] text-white px-10 py-3 rounded-xl font-bold text-lg"
+            className="w-full sm:w-auto bg-[#C3473F] hover:bg-[#a63b34] text-white px-10 py-3 rounded-xl font-bold text-lg transition"
           >
             Pesan Sekarang
           </button>
